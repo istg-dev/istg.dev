@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>istg.dev</title>
+  <style>
+    body {
+      background-color: #181818;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0; 
+      overflow: hidden;
+    }
+
+    .popup {
+      background-color: #282828;
+      border: 1px solid #00ff00;
+      padding: 40px;
+      margin: 20px;
+      width: 60%;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 4em;
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 2em;
+      margin-top: 10px;
+    }
+
+    .subheading-box {
+      background-color: #383838;
+      border: 1px solid #00ff00;
+      padding: 5px 10px;
+      margin-top: 20px;
+      width: 60%;
+      text-align: left;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    .subheading-box h3 {
+      font-size: 1em;
+      margin: 0;
+    }
+
+    .content-section {
+      max-height: 200;
+      overflow: hidden;
+      transition: max-height 0.5s ease-out;
+    }
+
+    .content-section.active {
+      max-height: 200px; 
+    }
+
+    .content-section ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .content-section li {
+      margin-bottom: 5px;
+    }
+
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .social-buttons a {
+      display: inline-block;
+      margin: 0 5px;
+      padding: 5px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .social-buttons a:hover {
+      opacity: 0.8;
+    }
+
+    .social-buttons a.discord {
+      background-color: #57595b;
+    }
+
+    .social-buttons a.guns {
+      background-color: #57595b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="popup">
+    <h1>istg.dev</h1>
+    <h2>FL Developer</h2>
+    <div class="social-buttons">
+      <a href="https://twitter.com/" class="discord">Discord</a>
+      <a href="https://guns.lol/rat/" class="guns">Bio</a>
+    </div>
+  </div>
+  <div class="subheading-box" onclick="toggleContent()">
+    <h3>Things I've done:</h3>
+  </div>
+
+  <div class="content-section">
+    <ul>
+      <li>Worked partially on an E-Ticketing System</li>
+      <ul>
+        <li>Task 1: Mass Code Generation</li>
+        <li>Task 2: Entry Code Registrar</li>
+      </ul>
+      <li>Made multiple discord bots/selfbots</li>
+      <ul>
+        <li>Bot 1: Semi-Auto MM</li>
+        <li>Bot 2: Full-stack selfbot based on purchased base-code</li>
+      </ul>
+      <li>Made a HTML based website</li>
+      <ul>
+        <li>Information: istg.dev; Coded by Me :D</li>
+      </ul>
+  </div>
+
+  <script>
+    const popup = document.querySelector('.popup');
+    let targetOffsetX = 0;
+    let targetOffsetY = 0;
+    let currentOffsetX = 0;
+    let currentOffsetY = 0;
+    const smoothingFactor = 0.1;
+
+    document.addEventListener('mousemove', (event) => {
+      const x = event.clientX;
+      const y = event.clientY;
+
+      // Calculate the center of the popup
+      const popupRect = popup.getBoundingClientRect();
+      const popupCenterX = popupRect.left + popupRect.width / 2;
+      const popupCenterY = popupRect.top + popupRect.height / 2;
+
+      // Calculate the angle between the center of the popup and the cursor
+      const angle = Math.atan2(y - popupCenterY, x - popupCenterX);
+
+      // Calculate the target offset based on the angle
+      const offsetMagnitude = 10;
+      targetOffsetX = Math.cos(angle) * offsetMagnitude; 
+      targetOffsetY = Math.sin(angle) * offsetMagnitude; 
+
+      // Smoothly interpolate towards the target offset
+      currentOffsetX += (targetOffsetX - currentOffsetX) * smoothingFactor;
+      currentOffsetY += (targetOffsetY - currentOffsetY) * smoothingFactor;
+
+      // Apply the offset to the transform
+      popup.style.transform = `translate(${currentOffsetX}px, ${currentOffsetY}px)`; 
+    });
+
+    function toggleContent() {
+      const contentSection = document.querySelector('.content-section');
+      contentSection.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>
